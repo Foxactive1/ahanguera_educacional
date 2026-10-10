@@ -1,72 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de Cadastro de Produtos - InnovaiDeia">
-    <title>Cadastro de Produtos | InnovaiDeia</title>
-    
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <main class="container">
-                <!-- Cabeçalho -->
-        <header>
-            <h1>Cadastro de Produtos</h1>
-            <p class="autor">Desenvolvido por Dione Castro Alves - ADS</p>
-        </header>
-
-
-        <!-- Formulário (agora com onSubmit integrado no JS) -->
-        <form id="produtoForm">
-            <input type="hidden" id="produtoId"> <!-- Campo oculto para controle de edição -->
-            
-            <div class="input-group">
-                <label for="nome">Nome do produto:</label>
-                <input type="text" id="nome" placeholder="Digite o produto" required>
-            </div>
-
-            <div class="input-group">
-                <label for="preco">Preço (R$):</label>
-                <input type="number" id="preco" placeholder="Digite o preço" step="0.01" min="0.01" required>
-            </div>
-
-            <div class="input-group">
-                <label for="quantidade">Quantidade:</label>
-                <input type="number" id="quantidade" placeholder="Digite a quantidade" min="1" required>
-            </div>
-
-            <button type="submit" id="btnCadastrar">Cadastrar Produto</button>
-        </form>
-
-        <section class="lista-produtos">
-            <h2>Produtos cadastrados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Produto</th>
-                        <th>Preço</th>
-                        <th>Qtd</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="listaProdutos">
-                    <!-- Inserido dinamicamente via JS -->
-                </tbody>
-            </table>
-        </section>
-
-        <section class="resumo-estoque" aria-label="Resumo do estoque" aria-live="polite">
-            <div class="resumo-item"><span>Produtos cadastrados</span><strong id="totalProdutos">0</strong></div>
-            <div class="resumo-item"><span>Unidades em estoque</span><strong id="totalUnidades">0</strong></div>
-            <div class="resumo-item"><span>Valor total em estoque</span><strong id="valorEstoque">R$ 0,00</strong></div>
-        </section>
-
-        <footer>
-            <p>&copy; <span id="anoAtual">2026</span> InnovaiDeia. Todos os direitos reservados.</p>
-        </footer>
-    </main>
-
-    <script src="script.js"></script>
-</body>
-</html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Cadastro e controle de estoque de produtos"><title>Gestão de Produtos | InNovaIdeia</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="container"><header><button type="button" id="themeToggle" class="theme-toggle" aria-label="Alternar tema">🌙 Tema</button><h1>Gestão de Produtos</h1><p class="autor">Dione Castro Alves · ADS · InNovaIdeia®</p></header>
+<p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
+<form id="produtoForm"><input type="hidden" id="produtoId"><div class="form-grid"><div class="input-group"><label for="nome">Nome do produto</label><input id="nome" name="nome" maxlength="120" required placeholder="Ex.: Teclado"></div><div class="input-group"><label for="preco">Preço unitário (R$)</label><input id="preco" name="preco" type="number" min="0.01" step="0.01" required></div><div class="input-group"><label for="quantidade">Quantidade em estoque</label><input id="quantidade" name="quantidade" type="number" min="0" step="1" required></div></div><div class="form-actions"><button id="btnCadastrar" type="submit">Cadastrar produto</button><button id="btnCancelar" type="button" hidden>Cancelar edição</button></div></form>
+<section class="lista-produtos" aria-labelledby="tituloProdutos"><h2 id="tituloProdutos">Produtos cadastrados</h2><div class="tabela-responsive"><table><thead><tr><th scope="col">Produto</th><th scope="col">Preço</th><th scope="col">Qtd.</th><th scope="col">Ações</th></tr></thead><tbody id="listaProdutos"></tbody></table></div></section>
+<section class="resumo-estoque" aria-label="Resumo do estoque" aria-live="polite"><div class="resumo-item"><span>Produtos cadastrados</span><strong id="totalProdutos">0</strong></div><div class="resumo-item"><span>Unidades em estoque</span><strong id="totalUnidades">0</strong></div><div class="resumo-item"><span>Valor total em estoque</span><strong id="valorEstoque">R$ 0,00</strong></div></section>
+<footer><p>© <span id="anoAtual"></span> InNovaIdeia Assessoria em Tecnologia ®</p></footer></main><script src="script.js" defer></script></body></html>
