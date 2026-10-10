@@ -262,3 +262,10 @@ footer strong {
     font-size: 0.95rem;
     font-style: italic;
 }
+
+/* Resumo financeiro abaixo da listagem */
+.resumo-estoque { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.resumo-item { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.resumo-item span { font-size: .82rem; color: #475569; }
+.resumo-item strong { font-size: 1.25rem; color: #1e40af; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .resumo-estoque { grid-template-columns: 1fr; } }
