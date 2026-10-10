@@ -6,9 +6,19 @@ async function carregarProdutos() {
         const response = await fetch(API_URL);
         const produtos = await response.json();
         renderizarProdutos(produtos);
+        atualizarResumoEstoque(produtos);
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
     }
+}
+
+function atualizarResumoEstoque(produtos) {
+    const totalProdutos = produtos.length;
+    const totalUnidades = produtos.reduce((total, produto) => total + (Number(produto.quantidade) || 0), 0);
+    const valorTotal = produtos.reduce((total, produto) => total + (Number(produto.preco) || 0) * (Number(produto.quantidade) || 0), 0);
+    document.getElementById('totalProdutos').textContent = totalProdutos.toLocaleString('pt-BR');
+    document.getElementById('totalUnidades').textContent = totalUnidades.toLocaleString('pt-BR');
+    document.getElementById('valorEstoque').textContent = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
 function renderizarProdutos(produtos) {
@@ -17,7 +27,7 @@ function renderizarProdutos(produtos) {
 
     produtos.forEach((produto) => {
         const tr = document.createElement('tr');
-        const precoFormatado = produto.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        const precoFormatado = Number(produto.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
         const quantidade = produto.quantidade || 0; // Prevenção de undefined antigo
 
         tr.innerHTML = `
