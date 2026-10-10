@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/produtos';
+const API_URL = '/api/produtos';
 let editandoId = null; // Variável global para controlar se estamos editando
 
 async function carregarProdutos() {
