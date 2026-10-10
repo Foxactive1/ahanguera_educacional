@@ -1,126 +1,13 @@
-const API_URL = '/api/produtos';
-let editandoId = null; // Variável global para controlar se estamos editando
-
-async function carregarProdutos() {
-    try {
-        const response = await fetch(API_URL);
-        const produtos = await response.json();
-        renderizarProdutos(produtos);
-        atualizarResumoEstoque(produtos);
-    } catch (error) {
-        console.error('Erro ao carregar produtos:', error);
-    }
-}
-
-function atualizarResumoEstoque(produtos) {
-    const totalProdutos = produtos.length;
-    const totalUnidades = produtos.reduce((total, produto) => total + (Number(produto.quantidade) || 0), 0);
-    const valorTotal = produtos.reduce((total, produto) => total + (Number(produto.preco) || 0) * (Number(produto.quantidade) || 0), 0);
-    document.getElementById('totalProdutos').textContent = totalProdutos.toLocaleString('pt-BR');
-    document.getElementById('totalUnidades').textContent = totalUnidades.toLocaleString('pt-BR');
-    document.getElementById('valorEstoque').textContent = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
-function renderizarProdutos(produtos) {
-    const tbody = document.getElementById('listaProdutos');
-    tbody.innerHTML = '';
-
-    produtos.forEach((produto) => {
-        const tr = document.createElement('tr');
-        const precoFormatado = Number(produto.preco).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-        const quantidade = produto.quantidade || 0; // Prevenção de undefined antigo
-
-        tr.innerHTML = `
-            <td>${produto.nome}</td>
-            <td>R$ ${precoFormatado}</td>
-            <td>${quantidade}</td>
-            <td>
-                <!-- Passando os dados para a função de edição -->
-                <button class="btn-editar" onclick="prepararEdicao(${produto.id}, '${produto.nome}', ${produto.preco}, ${quantidade})">Editar</button>
-                <button class="btn-excluir" onclick="excluirProduto(${produto.id})">Excluir</button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-// Função executada ao dar Submit no formulário (Cadastro ou Edição)
-async function salvarProduto(event) {
-    event.preventDefault(); // Impede o reload da página
-
-    const inputNome = document.getElementById('nome');
-    const inputPreco = document.getElementById('preco');
-    const inputQuantidade = document.getElementById('quantidade');
-
-    const nome = inputNome.value.trim();
-    const preco = parseFloat(inputPreco.value);
-    const quantidade = parseInt(inputQuantidade.value);
-
-    if (nome === '' || isNaN(preco) || preco <= 0 || isNaN(quantidade) || quantidade <= 0) {
-        alert('Por favor, preencha todos os campos corretamente.');
-        return;
-    }
-
-    const payload = { nome, preco, quantidade };
-
-    try {
-        if (editandoId) {
-            // Modo Edição (PUT)
-            await fetch(`${API_URL}/${editandoId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            editandoId = null; // Reseta o ID de edição
-            document.getElementById('btnCadastrar').textContent = 'Cadastrar Produto'; // Volta o nome do botão
-        } else {
-            // Modo Cadastro (POST)
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-        }
-
-        // Limpa os campos
-        document.getElementById('produtoForm').reset();
-        inputNome.focus();
-        carregarProdutos(); // Atualiza a tabela com o novo JSON
-
-    } catch (error) {
-        console.error('Erro ao salvar produto:', error);
-    }
-}
-
-// Função para jogar os dados da tabela de volta para o formulário
-function prepararEdicao(id, nome, preco, quantidade) {
-    editandoId = id; // Define qual ID está sendo editado
-    document.getElementById('nome').value = nome;
-    document.getElementById('preco').value = preco;
-    document.getElementById('quantidade').value = quantidade;
-    
-    // Altera o visual do botão para indicar edição
-    const btnSubmit = document.getElementById('btnCadastrar');
-    btnSubmit.textContent = 'Salvar Alterações';
-    
-    // Rola a tela para o topo para facilitar a edição em dispositivos menores
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function excluirProduto(id) {
-    if (confirm('Tem certeza que deseja excluir este produto?')) {
-        try {
-            await fetch(`${API_URL}/${id}`, {
-                method: 'DELETE'
-            });
-            carregarProdutos();
-        } catch (error) {
-            console.error('Erro ao excluir produto:', error);
-        }
-    }
-}
-
-// Troca do Event Listener para 'submit' no formulário
-document.getElementById('produtoForm').addEventListener('submit', salvarProduto);
-
-window.addEventListener('DOMContentLoaded', carregarProdutos);
+const API_URL='/api/produtos';const $=id=>document.getElementById(id);const moeda=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});let produtosAtuais=[];let editandoId=null;
+function aviso(texto,tipo=''){const el=$('mensagem');el.textContent=texto;el.className='mensagem '+tipo}
+async function requisicao(url,options){const response=await fetch(url,options);if(!response.ok){let erro={};try{erro=await response.json()}catch{}throw new Error(erro.error||erro.erro||'Falha na operação ('+response.status+')')}return response.status===204?null:response.json()}
+function atualizarResumoEstoque(produtos){$('totalProdutos').textContent=produtos.length.toLocaleString('pt-BR');$('totalUnidades').textContent=produtos.reduce((n,p)=>n+Number(p.quantidade||0),0).toLocaleString('pt-BR');$('valorEstoque').textContent=moeda.format(produtos.reduce((n,p)=>n+Number(p.preco||0)*Number(p.quantidade||0),0))}
+function botao(texto,classe,acao){const b=document.createElement('button');b.type='button';b.className=classe;b.textContent=texto;b.addEventListener('click',acao);return b}
+function renderizarProdutos(produtos){const tbody=$('listaProdutos');tbody.replaceChildren();if(!produtos.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.textContent='Nenhum produto cadastrado.';tr.append(td);tbody.append(tr);return}for(const produto of produtos){const tr=document.createElement('tr');for(const valor of [String(produto.nome),moeda.format(Number(produto.preco)),String(produto.quantidade)]){const td=document.createElement('td');td.textContent=valor;tr.append(td)}const td=document.createElement('td'),acoes=document.createElement('div');acoes.className='acoes';acoes.append(botao('Editar','btn-editar',()=>prepararEdicao(produto)),botao('Excluir','btn-excluir',()=>excluirProduto(produto.id)));td.append(acoes);tr.append(td);tbody.append(tr)}}
+async function carregarProdutos(){try{const dados=await requisicao(API_URL);if(!Array.isArray(dados))throw new Error('Resposta inválida da API');produtosAtuais=dados;renderizarProdutos(dados);atualizarResumoEstoque(dados)}catch(error){aviso('Não foi possível carregar produtos: '+error.message,'erro')}}
+function cancelarEdicao() {editandoId=null;$('produtoForm').reset();$('btnCadastrar').textContent='Cadastrar produto';$('btnCancelar').hidden=true}
+function prepararEdicao(produto){editandoId=produto.id;$('nome').value=produto.nome;$('preco').value=produto.preco;$('quantidade').value=produto.quantidade;$('btnCadastrar').textContent='Salvar alterações';$('btnCancelar').hidden=false;$('nome').focus();window.scrollTo({top:0,behavior:'smooth'})}
+async function salvarProduto(event){event.preventDefault();const nome=$('nome').value.trim(),preco=Number($('preco').value),quantidade=Number($('quantidade').value);if(!nome||!Number.isFinite(preco)||preco<=0||!Number.isSafeInteger(quantidade)||quantidade<0){aviso('Preencha nome, preço positivo e quantidade inteira não negativa.','erro');return}const id=editandoId,botaoSalvar=$('btnCadastrar');botaoSalvar.disabled=true;try{await requisicao(id===null?API_URL:API_URL+'/'+encodeURIComponent(id),{method:id===null?'POST':'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({nome,preco,quantidade})});cancelarEdicao();await carregarProdutos();aviso(id===null?'Produto cadastrado.':'Produto atualizado.','sucesso')}catch(error){aviso(error.message,'erro')}finally{botaoSalvar.disabled=false}}
+async function excluirProduto(id){if(!confirm('Deseja excluir este produto?'))return;try{await requisicao(API_URL+'/'+encodeURIComponent(id),{method:'DELETE'});if(editandoId===id)cancelarEdicao();await carregarProdutos();aviso('Produto excluído.','sucesso')}catch(error){aviso(error.message,'erro')}}
+function iniciarTema(){let tema='light';try{tema=localStorage.getItem('tema')||'light'}catch{}document.documentElement.dataset.theme=tema;$('themeToggle').textContent=tema==='dark'?'☀️ Tema claro':'🌙 Tema escuro';$('themeToggle').addEventListener('click',()=>{const novo=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=novo;$('themeToggle').textContent=novo==='dark'?'☀️ Tema claro':'🌙 Tema escuro';try{localStorage.setItem('tema',novo)}catch{}})}
+$('produtoForm').addEventListener('submit',salvarProduto);$('btnCancelar').addEventListener('click',cancelarEdicao);$('anoAtual').textContent=new Date().getFullYear();iniciarTema();carregarProdutos();
