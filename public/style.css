@@ -1,0 +1,264 @@
+/* ==========================================================================
+   1. Reset Global e Configurações Básicas
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f4f7f6; /* Fundo cinza claro moderno */
+    color: #333333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa a altura toda da tela */
+    padding: 20px;
+}
+
+/* ==========================================================================
+   2. Container Principal (O "Cartão" Branco)
+   ========================================================================== */
+.container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 650px; /* Largura máxima confortável */
+    border-radius: 12px; /* Bordas arredondadas */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Sombra suave e moderna */
+    padding: 40px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Animação suave ao carregar a página */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   3. Cabeçalho e Títulos
+   ========================================================================== */
+header h1 {
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.lista-produtos h2 {
+    font-size: 1.3rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+/* ==========================================================================
+   4. Formulário (Inputs e Labels)
+   ========================================================================== */
+form {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #2d3748;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* Efeito ao clicar no input */
+.input-group input:focus {
+    border-color: #2563eb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); /* Anel de foco azul */
+}
+
+/* ==========================================================================
+   5. Botões
+   ========================================================================== */
+/* Adicione este bloco no final da seção 5. Botões do seu style.css original */
+
+.btn-editar {
+    background-color: #f59e0b; /* Amarelo/Laranja para edição */
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    margin-right: 8px; /* Espaço entre os botões */
+}
+
+.btn-editar:hover {
+    background-color: #d97706;
+}
+
+/* Ajuste das ações na tabela para os botões ficarem lado a lado */
+td:last-child {
+    display: flex;
+    gap: 5px;
+}
+
+#btnCadastrar {
+    width: 100%;
+    padding: 14px;
+    background-color: #2563eb; /* Azul principal */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+#btnCadastrar:hover {
+    background-color: #1d4ed8; /* Azul mais escuro */
+}
+
+#btnCadastrar:active {
+    transform: scale(0.98); /* Efeito de clique */
+}
+
+/* Botão de Excluir (dentro da tabela) */
+.btn-excluir {
+    background-color: #ef4444; /* Vermelho */
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #dc2626;
+}
+
+/* ==========================================================================
+   6. Tabela de Produtos
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Cabeçalho da Tabela */
+th {
+    background-color: #2d3748; /* Cinza escuro */
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Bordas arredondadas no topo da tabela */
+th:first-child { border-top-left-radius: 8px; }
+th:last-child { border-top-right-radius: 8px; }
+
+/* Linhas do Corpo da Tabela */
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+/* Efeito zebra (linhas alternadas) para facilitar a leitura */
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #f1f5f9; /* Efeito hover */
+}
+
+td {
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   7. Rodapé InnovaiDeia
+   ========================================================================== */
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.85rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+footer strong {
+    color: #4a5568;
+}
+
+/* ==========================================================================
+   8. Responsividade (Ajustes para Celular)
+   ========================================================================== */
+@media (max-width: 500px) {
+    .container {
+        padding: 25px 20px;
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    th, td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    .btn-excluir {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+}
+/* Estilo para o nome do autor abaixo do título */
+.autor {
+    text-align: center;
+    color: #64748b; /* Um tom de cinza mais suave */
+    margin-top: -20px; /* Puxa o texto para mais perto do título */
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+    font-style: italic;
+}

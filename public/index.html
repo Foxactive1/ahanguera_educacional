@@ -1,1 +1,66 @@
-jsjsjsj
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Cadastro de Produtos - InnovaiDeia">
+    <title>Cadastro de Produtos | InnovaiDeia</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+                <!-- Cabeçalho -->
+        <header>
+            <h1>Cadastro de Produtos</h1>
+            <p class="autor">Desenvolvido por Dione Castro Alves - ADS</p>
+        </header>
+
+
+        <!-- Formulário (agora com onSubmit integrado no JS) -->
+        <form id="produtoForm">
+            <input type="hidden" id="produtoId"> <!-- Campo oculto para controle de edição -->
+            
+            <div class="input-group">
+                <label for="nome">Nome do produto:</label>
+                <input type="text" id="nome" placeholder="Digite o produto" required>
+            </div>
+
+            <div class="input-group">
+                <label for="preco">Preço (R$):</label>
+                <input type="number" id="preco" placeholder="Digite o preço" step="0.01" min="0.01" required>
+            </div>
+
+            <div class="input-group">
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" placeholder="Digite a quantidade" min="1" required>
+            </div>
+
+            <button type="submit" id="btnCadastrar">Cadastrar Produto</button>
+        </form>
+
+        <section class="lista-produtos">
+            <h2>Produtos cadastrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Qtd</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaProdutos">
+                    <!-- Inserido dinamicamente via JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>&copy; <span id="anoAtual">2026</span> InnovaiDeia. Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
